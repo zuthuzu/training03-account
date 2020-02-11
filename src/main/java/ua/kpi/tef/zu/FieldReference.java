@@ -1,5 +1,7 @@
 package ua.kpi.tef.zu;
 
+import java.util.TreeSet;
+
 /**
  * Created by Anton Domin on 2020-02-11
  */
@@ -10,8 +12,19 @@ public class FieldReference {
 	public static final String REGEX_SECOND_NAME = "[А-ЯЁ][а-яё]{1,25}([-][А-ЯЁ][а-яё]*)?";
 	public static final String REGEX_LOGIN = "[a-zA-Z][a-zA-Z0-9-_\\.]{1,20}";
 
-	public static String[] fieldList = new String[]{"FirstName", "Login"}; //abridged version for now
+	private static String[] fieldList = new String[]{"FirstName", "Login"}; //abridged version for now
 	//public static String[] fieldList = new String[]{"FirstName", "SecondName", "Login"};
+
+	private TreeSet<String> requiredFields = new TreeSet<>();
+
+	public FieldReference() {
+		setRequiredFields();
+	}
+
+	private void setRequiredFields() {
+		requiredFields.add("FirstName");
+		requiredFields.add("Login");
+	}
 
 	public int getFieldAmount() {
 		return fieldList.length;
@@ -49,5 +62,9 @@ public class FieldReference {
 			default:
 				return View.INPUT_UNKNOWN; //this should never happen
 		}
+	}
+
+	public boolean isFieldRequired(String fieldID) {
+		return requiredFields.contains(fieldID);
 	}
 }
