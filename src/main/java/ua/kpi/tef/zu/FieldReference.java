@@ -15,15 +15,14 @@ public class FieldReference {
 	private static String[] fieldList = new String[]{"FirstName", "Login"}; //abridged version for now
 	//public static String[] fieldList = new String[]{"FirstName", "SecondName", "Login"};
 
-	private TreeSet<String> requiredFields = new TreeSet<>();
+	private TreeSet<String> optionalFields = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
 	public FieldReference() {
-		setRequiredFields();
+		setOptionalFields();
 	}
 
-	private void setRequiredFields() {
-		requiredFields.add("FirstName");
-		requiredFields.add("Login");
+	private void setOptionalFields() {
+		optionalFields.add("Login");
 	}
 
 	public int getFieldAmount() {
@@ -51,20 +50,33 @@ public class FieldReference {
 
 	public String getIntroByFieldID(String fieldID) {
 		String lowercaseID = fieldID.toLowerCase();
+		StringBuilder result = new StringBuilder();
 
 		switch (lowercaseID) {
 			case "firstname":
-				return View.INPUT_FIRST_NAME;
+				result.append(View.INPUT_FIRST_NAME);
+				break;
 			case "secondname":
-				return View.INPUT_SECOND_NAME;
+				result.append(View.INPUT_SECOND_NAME);
+				break;
 			case "login":
-				return View.INPUT_LOGIN;
+				result.append(View.INPUT_LOGIN);
+				break;
 			default:
-				return View.INPUT_UNKNOWN; //this should never happen
+				result.append(View.INPUT_UNKNOWN); //this should never happen
+				break;
 		}
+
+		result.append(getFieldOptionalPrompt(fieldID));
+
+		return result.toString();
 	}
 
-	public boolean isFieldRequired(String fieldID) {
-		return requiredFields.contains(fieldID);
+	private String getFieldOptionalPrompt(String fieldID) {
+		return isFieldOptional(fieldID) ? View.FIELD_OPTIONAL : "";
+	}
+
+	public boolean isFieldOptional(String fieldID) {
+		return optionalFields.contains(fieldID);
 	}
 }

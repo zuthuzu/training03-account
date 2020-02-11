@@ -34,28 +34,49 @@ public class Controller {
 
 	private void processFields(Scanner sc) {
 		String[] fieldList = fieldReference.getFieldList();
+		String inputValue;
 
 		for (String fieldID : fieldList) {
-			model.recordInput(inputStringValueWithScanner(sc, fieldID), fieldID);
+			inputValue = inputStringValueWithScanner(sc, fieldID);
+			if (!inputValue.isEmpty()) {
+				model.recordInput(inputValue, fieldID);
+			}
 		}
 	}
 
-	// The Utility methods
 	public String inputStringValueWithScanner(Scanner sc, String fieldID) {
 		String userPrompt = fieldReference.getIntroByFieldID(fieldID);
-		String currentFieldRegex = fieldReference.getRegexByFieldID(fieldID);
 		String inputValue;
 
-		if (currentFieldRegex == null) {
-			return "";
-		}
-
-		view.printAndKeepLine(userPrompt);
-		while (!(sc.hasNext() && (inputValue = sc.nextLine()).matches(currentFieldRegex))) {
+		/*while (!(sc.hasNext() && (inputValue = sc.nextLine()).matches(currentFieldRegex))) {
 			view.printAndEndLine(View.WRONG_INPUT);
 			view.printAndKeepLine(userPrompt);
-		}
+		}*/
+
+		boolean valueMeetsRequirements;
+
+		do {
+			view.printAndKeepLine(userPrompt);
+			inputValue = sc.nextLine();
+
+			valueMeetsRequirements = isValueOK(inputValue, fieldID);
+
+			if (!valueMeetsRequirements) {
+				view.printAndEndLine(View.WRONG_INPUT);
+			}
+		} while (!valueMeetsRequirements);
 
 		return inputValue;
+	}
+
+	private boolean isValueOK(String inputValue, String fieldID) {
+		String currentFieldRegex = fieldReference.getRegexByFieldID(fieldID);
+		boolean fieldIsOptional = fieldReference.isFieldOptional(fieldID);
+
+		if (fieldIsOptional && inputValue.isEmpty()) {
+			return true;
+		} else {
+			return inputValue.matches(currentFieldRegex);
+		}
 	}
 }
