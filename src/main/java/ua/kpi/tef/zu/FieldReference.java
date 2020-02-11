@@ -8,9 +8,9 @@ import java.util.TreeSet;
 
 public class FieldReference {
 
-	public static final String REGEX_FIRST_NAME = "[A-ЯЁ][а-яё]{1,25}";
-	public static final String REGEX_SECOND_NAME = "[А-ЯЁ][а-яё]{1,25}([-][А-ЯЁ][а-яё]*)?";
-	public static final String REGEX_LOGIN = "[a-zA-Z][a-zA-Z0-9-_\\.]{1,20}";
+	private static final String REGEX_FIRST_NAME = "[A-ЯЁ][а-яё]{1,25}";
+	private static final String REGEX_SECOND_NAME = "[А-ЯЁ][а-яё]{1,25}([-][А-ЯЁ][а-яё]*)?";
+	private static final String REGEX_LOGIN = "[a-zA-Z][a-zA-Z0-9-_\\.]{1,20}";
 
 	private static String[] fieldList = new String[]{"FirstName", "Login"}; //abridged version for now
 	//public static String[] fieldList = new String[]{"FirstName", "SecondName", "Login"};
