@@ -70,13 +70,10 @@ public class Controller {
 	}
 
 	private boolean isValueOK(String inputValue, String fieldID) {
-		String currentFieldRegex = fieldReference.getRegexByFieldID(fieldID);
-		boolean fieldIsOptional = fieldReference.isFieldOptional(fieldID);
-
-		if (fieldIsOptional && inputValue.isEmpty()) {
+		if (fieldReference.isFieldOptional(fieldID) && inputValue.isEmpty()) {
 			return true;
 		} else {
-			return inputValue.matches(currentFieldRegex);
+			return inputValue.matches(fieldReference.getRegexByFieldID(fieldID));
 		}
 	}
 }
