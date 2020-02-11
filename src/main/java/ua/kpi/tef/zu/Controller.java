@@ -19,12 +19,12 @@ public class Controller {
 	}
 
 	public void startAccountInput() {
-		Scanner sc = new Scanner(System.in);
-
 		if (fieldReference.getFieldAmount() == 0) {
 			view.printAndEndLine(View.ACCOUNT_NO_FIELDS);
 			return;
 		}
+
+		Scanner sc = new Scanner(System.in);
 
 		view.printAndEndLine(View.ACCOUNT_INTRO);
 

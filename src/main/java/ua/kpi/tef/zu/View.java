@@ -6,7 +6,7 @@ package ua.kpi.tef.zu;
 
 public class View {
 
-	public static final String ACCOUNT_INTRO = "Hello! Welcome to personal records storage.";
+	public static final String ACCOUNT_INTRO = "Hello! Welcome to the personal records storage.";
 	public static final String ACCOUNT_NO_FIELDS = "Unfortunately, it seems that storage isn't accepting any data at the moment";
 	public static final String WRONG_INPUT = "The data you have entered doesn't match our criteria for this field. Please retry.";
 	public static final String INPUT_UNKNOWN = "This field doesn't seem to have a description. Enter something at your discretion: ";
