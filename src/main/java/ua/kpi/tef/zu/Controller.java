@@ -30,6 +30,9 @@ public class Controller {
 
 		processFields(sc);
 
+		if (model.hasNewRecordInProgress()) {
+			view.printAndEndLine(View.RECORD_IN_PROGRESS);
+		}
 	}
 
 	private void processFields(Scanner sc) {
@@ -45,7 +48,7 @@ public class Controller {
 	}
 
 	public String inputStringValueWithScanner(Scanner sc, String fieldID) {
-		String userPrompt = fieldReference.getIntroByFieldID(fieldID);
+		String userPrompt = fieldReference.getInputPromptByFieldID(fieldID);
 		String inputValue;
 
 		/*while (!(sc.hasNext() && (inputValue = sc.nextLine()).matches(currentFieldRegex))) {
@@ -62,7 +65,7 @@ public class Controller {
 			valueMeetsRequirements = isValueOK(inputValue, fieldID);
 
 			if (!valueMeetsRequirements) {
-				view.printAndEndLine(View.WRONG_INPUT);
+				view.printAndEndLine(fieldReference.getValuePromptByFieldID(fieldID));
 			}
 		} while (!valueMeetsRequirements);
 
