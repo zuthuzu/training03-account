@@ -33,10 +33,10 @@ public class Controller {
 	}
 
 	private void processFields(Scanner sc) {
-		String[] fieldList = fieldReference.getFieldList();
+		String[] fieldIDs = fieldReference.getFieldIDs();
 		String inputValue;
 
-		for (String fieldID : fieldList) {
+		for (String fieldID : fieldIDs) {
 			inputValue = inputStringValueWithScanner(sc, fieldID);
 			if (!inputValue.isEmpty()) {
 				model.recordInput(inputValue, fieldID);
