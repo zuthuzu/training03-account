@@ -1,7 +1,5 @@
 package ua.kpi.tef.zu;
 
-import java.io.PrintStream;
-import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -11,7 +9,6 @@ import java.util.ResourceBundle;
 
 public class View {
 	private ResourceBundle bundle;
-	//PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
 	public static final String RECORD_INTRO = "record.intro";
 	public static final String RECORD_IN_PROGRESS = "record.inprogress";
@@ -25,8 +22,8 @@ public class View {
 	public static final String FORMAT_LOGIN = "input.login.value";
 
 	public View() {
-		Locale currentLocale = new Locale("en", "US");
-		//Locale currentLocale = new Locale("ru","RU");
+		//Locale currentLocale = new Locale("en", "US");
+		Locale currentLocale = new Locale("ru", "RU");
 
 		bundle = ResourceBundle.getBundle("record", currentLocale);
 	}
