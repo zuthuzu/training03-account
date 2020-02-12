@@ -19,8 +19,9 @@ public class FieldReference {
 
 		blankField = new Field();
 
-		fieldDetails.add(new Field("FirstName", View.INPUT_FIRST_NAME, REGEX_FIRST_NAME));
-		fieldDetails.add(new Field("SecondName", View.INPUT_SECOND_NAME, REGEX_SECOND_NAME, "", true));
+		//first three parameters are mandatory, the rest is optional
+		fieldDetails.add(new Field("FirstName", View.INPUT_FIRST_NAME, REGEX_FIRST_NAME, View.FORMAT_NAME));
+		fieldDetails.add(new Field("SecondName", View.INPUT_SECOND_NAME, REGEX_SECOND_NAME, View.FORMAT_NAME, true));
 		fieldDetails.add(new Field("Login", View.INPUT_LOGIN, REGEX_LOGIN, View.FORMAT_LOGIN, false, true));
 
 	}
@@ -58,7 +59,7 @@ public class FieldReference {
 	}
 
 	public String getInputPromptByFieldID(String fieldID) {
-		return findByID(fieldID).getInputPrompt() + getFieldOptionalPrompt(fieldID);
+		return findByID(fieldID).getInputPrompt();
 	}
 
 	public String getValuePromptByFieldID(String fieldID) {
@@ -66,7 +67,7 @@ public class FieldReference {
 		return result.isEmpty() ? View.WRONG_INPUT : result;
 	}
 
-	private String getFieldOptionalPrompt(String fieldID) {
+	public String getFieldOptionalPrompt(String fieldID) {
 		return isFieldOptional(fieldID) ? View.FIELD_OPTIONAL : "";
 	}
 

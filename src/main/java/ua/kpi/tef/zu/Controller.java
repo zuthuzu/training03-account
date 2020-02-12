@@ -20,13 +20,13 @@ public class Controller {
 
 	public void startAccountInput() {
 		if (fieldReference.getFieldAmount() == 0) {
-			view.printAndEndLine(View.ACCOUNT_NO_FIELDS);
+			view.printAndEndLine(View.RECORD_NO_FIELDS);
 			return;
 		}
 
 		Scanner sc = new Scanner(System.in);
 
-		view.printAndEndLine(View.ACCOUNT_INTRO);
+		view.printAndEndLine(View.RECORD_INTRO);
 
 		processFields(sc);
 
@@ -60,8 +60,9 @@ public class Controller {
 
 		do {
 			view.printAndKeepLine(userPrompt);
-			inputValue = sc.nextLine();
+			view.printAndKeepLine(fieldReference.getFieldOptionalPrompt(fieldID));
 
+			inputValue = sc.nextLine();
 			valueMeetsRequirements = isValueOK(inputValue, fieldID);
 
 			if (!valueMeetsRequirements) {
