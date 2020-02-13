@@ -28,6 +28,10 @@ public class FieldReference {
 		activeFields.add(new ActiveField(FieldID.PATRONYM, true));
 		activeFields.add(new ActiveField(FieldID.LOGIN, false, true));
 		activeFields.add(new ActiveField(FieldID.COMMENT, true));
+		activeFields.add(new ActiveField(FieldID.GROUP));
+		activeFields.add(new ActiveField(FieldID.PHONE_MOBILE));
+		activeFields.add(new ActiveField(FieldID.PHONE_LANDLINE, true));
+		activeFields.add(new ActiveField(FieldID.PHONE_MOBILE2, true));
 
 	}
 
@@ -56,9 +60,9 @@ public class FieldReference {
 	}
 
 	//these tokens are localized via regexBundle in this class
-	public String getRegex(ActiveField field) { return getLocalized(field.getValueRegex()); }
+	public String getLocalizedRegex(ActiveField field) { return getLocalized(field.getValueRegex()); }
 
-	public String getValuePrompt(ActiveField field) {
+	public String getLocalizedDescription(ActiveField field) {
 		String result = getLocalized(field.getValueDescription());
 		return result.isEmpty() ? View.WRONG_INPUT : result;
 	}

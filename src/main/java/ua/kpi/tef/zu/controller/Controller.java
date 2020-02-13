@@ -42,7 +42,7 @@ public class Controller {
 		}
 	}
 
-	//Language selection methods
+	//Localization tech
 	public void selectLanguage(Scanner sc) {
 		SupportedLanguages selectedLanguage;
 
@@ -50,32 +50,10 @@ public class Controller {
 			view.printAndEndLine(option.getUserPrompt());
 		}
 
-		selectedLanguage = SupportedLanguages.getSupportedLanguage(languageSelectionLoop(sc));
-		sc.nextLine(); //to avoid ghost input further on
+		selectedLanguage = SupportedLanguages.getSupportedLanguage(groupSelectionLoop(sc, SupportedLanguages.INPUT_OPTIONS));
 
 		fieldReference.setLocalization(selectedLanguage);
 		view.setLocalization(selectedLanguage);
-	}
-
-	private int languageSelectionLoop(Scanner sc) {
-		int inputValue;
-
-		inputValue = inputIntValueWithScanner(sc);
-
-		while (!Integer.toString(inputValue).matches(SupportedLanguages.LANGUAGE_OPTIONS)) {
-			view.printAndEndLine(View.WRONG_INPUT);
-			inputValue = inputIntValueWithScanner(sc);
-		}
-
-		return inputValue;
-	}
-
-	private int inputIntValueWithScanner(Scanner sc) {
-		while (!sc.hasNextInt()) {
-			view.printAndEndLine(View.WRONG_INPUT);
-			sc.next();
-		}
-		return sc.nextInt();
 	}
 
 	//Primary function methods
@@ -89,6 +67,14 @@ public class Controller {
 	}
 
 	private String inputFieldValue(Scanner sc, ActiveField field) {
+		if (field.isGroupField()) {
+			return inputGroupField(sc, field);
+		} else {
+			return inputStringField(sc, field);
+		}
+	}
+
+	private String inputStringField(Scanner sc, ActiveField field) {
 		String userPrompt = fieldReference.getInputPrompt(field);
 		String inputValue;
 
@@ -107,7 +93,7 @@ public class Controller {
 			valueMeetsRequirements = isValueOK(inputValue, field);
 
 			if (!valueMeetsRequirements) {
-				view.printAndEndLine(fieldReference.getValuePrompt(field));
+				view.printAndEndLine(fieldReference.getLocalizedDescription(field));
 			}
 		} while (!valueMeetsRequirements);
 
@@ -118,7 +104,48 @@ public class Controller {
 		if (fieldReference.isFieldOptional(field) && inputValue.isEmpty()) {
 			return true;
 		} else {
-			return inputValue.matches(fieldReference.getRegex(field));
+			return inputValue.matches(fieldReference.getLocalizedRegex(field));
 		}
+	}
+
+	private String inputGroupField(Scanner sc, ActiveField field) {
+		view.printAndEndLine(fieldReference.getInputPrompt(field));
+
+		//hardcoding for now, don't know how to do it right yet
+		//ideally it'd store field type somewhere and implement its' specific foreach, getInputKey and getNameByKey
+		if (field.getFieldID() == FieldID.GROUP) {
+			for (RecordGroups option : RecordGroups.values()) {
+				view.printAndKeepLine(option.getInputKey() + ":");
+				view.printAndEndLine(option.getDisplayName());
+			}
+
+			return RecordGroups.getNameByKey(groupSelectionLoop(sc, field.getValueRegex()));
+		}
+
+		return "";
+	}
+
+
+	private int groupSelectionLoop(Scanner sc, String regexAllowed) {
+		int inputValue;
+
+		inputValue = inputIntValueWithScanner(sc);
+
+		while (!Integer.toString(inputValue).matches(regexAllowed)) {
+			view.printAndEndLine(View.WRONG_INPUT);
+			inputValue = inputIntValueWithScanner(sc);
+		}
+
+		sc.nextLine(); //to avoid ghost input further on
+
+		return inputValue;
+	}
+
+	private int inputIntValueWithScanner(Scanner sc) {
+		while (!sc.hasNextInt()) {
+			view.printAndEndLine(View.WRONG_INPUT);
+			sc.next();
+		}
+		return sc.nextInt();
 	}
 }

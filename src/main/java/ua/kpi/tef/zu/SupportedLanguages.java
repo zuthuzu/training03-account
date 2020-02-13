@@ -6,7 +6,7 @@ public enum SupportedLanguages {
 	ENGLISH ("To select English, enter '1'."),
 	RUSSIAN ("Чтобы выбрать русский язык, введите '2'.");
 
-	public static final String LANGUAGE_OPTIONS = "[1-2]";
+	public static final String INPUT_OPTIONS = "[1-2]";
 
 	private String userPrompt;
 

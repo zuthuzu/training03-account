@@ -32,6 +32,8 @@ public class ActiveField {
 
 	public String getValueDescription() { return fieldID.getRegexDescription(); }
 
+	public boolean isGroupField () { return fieldID.isGroupField(); }
+
 	public boolean isOptional() { return isOptional; }
 
 	public boolean isUnique() { return isUnique; }
