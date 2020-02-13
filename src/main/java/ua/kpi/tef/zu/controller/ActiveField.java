@@ -4,21 +4,21 @@ package ua.kpi.tef.zu.controller;
  * Created by Anton Domin on 2020-02-11
  */
 
-public class FieldDescription {
+public class ActiveField {
 	private FieldID fieldID;
 	private boolean isOptional = false;
 	private boolean isUnique = false;
 
-	public FieldDescription(FieldID fieldID) {
+	public ActiveField(FieldID fieldID) {
 		this.fieldID = fieldID;
 	}
 
-	public FieldDescription(FieldID fieldID, boolean isOptional) {
+	public ActiveField(FieldID fieldID, boolean isOptional) {
 		this.fieldID = fieldID;
 		this.isOptional = isOptional;
 	}
 
-	public FieldDescription(FieldID fieldID, boolean isOptional, boolean isUnique) {
+	public ActiveField(FieldID fieldID, boolean isOptional, boolean isUnique) {
 		this.fieldID = fieldID;
 		this.isOptional = isOptional;
 		this.isUnique = isUnique;

@@ -80,15 +80,15 @@ public class Controller {
 
 	//Primary function methods
 	private void processFields(Scanner sc) {
-		FieldDescription[] fieldDetails = fieldReference.getFieldDetails();
+		ActiveField[] activeFields = fieldReference.getActiveFields();
 		String inputValue;
 
-		for (FieldDescription field : fieldDetails) {
+		for (ActiveField field : activeFields) {
 			model.recordInput(inputFieldValue(sc, field), field.getFieldID());
 		}
 	}
 
-	private String inputFieldValue(Scanner sc, FieldDescription field) {
+	private String inputFieldValue(Scanner sc, ActiveField field) {
 		String userPrompt = fieldReference.getInputPrompt(field);
 		String inputValue;
 
@@ -114,7 +114,7 @@ public class Controller {
 		return inputValue;
 	}
 
-	private boolean isValueOK(String inputValue, FieldDescription field) {
+	private boolean isValueOK(String inputValue, ActiveField field) {
 		if (fieldReference.isFieldOptional(field) && inputValue.isEmpty()) {
 			return true;
 		} else {

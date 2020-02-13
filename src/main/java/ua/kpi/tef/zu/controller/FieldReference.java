@@ -15,7 +15,7 @@ public class FieldReference {
 	private SupportedLanguages currentLanguage;
 	private ResourceBundle regexBundle;
 
-	private ArrayList<FieldDescription> fieldDetails = new ArrayList<>();
+	private ArrayList<ActiveField> activeFields = new ArrayList<>();
 
 	public FieldReference() {
 
@@ -23,11 +23,11 @@ public class FieldReference {
 		setLocalization(currentLanguage);
 
 		//first three constructor parameters are mandatory, the rest is optional
-		fieldDetails.add(new FieldDescription(FieldID.FIRSTNAME));
-		fieldDetails.add(new FieldDescription(FieldID.SECONDNAME));
-		fieldDetails.add(new FieldDescription(FieldID.PATRONYM, true));
-		fieldDetails.add(new FieldDescription(FieldID.LOGIN, false, true));
-		fieldDetails.add(new FieldDescription(FieldID.COMMENT, true));
+		activeFields.add(new ActiveField(FieldID.FIRSTNAME));
+		activeFields.add(new ActiveField(FieldID.SECONDNAME));
+		activeFields.add(new ActiveField(FieldID.PATRONYM, true));
+		activeFields.add(new ActiveField(FieldID.LOGIN, false, true));
+		activeFields.add(new ActiveField(FieldID.COMMENT, true));
 
 	}
 
@@ -40,36 +40,36 @@ public class FieldReference {
 		return regexBundle.keySet().contains(property) ? regexBundle.getString(property) : "";
 	}
 
-	public int getFieldAmount() { return fieldDetails.size(); }
+	public int getFieldAmount() { return activeFields.size(); }
 
-	public FieldDescription[] getFieldDetails() {
+	public ActiveField[] getActiveFields() {
 		//for some reason fieldDetails.toArray() doesn't work, returs type mismatch: Object[]
 		//manual downcasting to (FieldDescription[]) doesn't work either
 		//ergo, constructing an array manually for now
-		FieldDescription[] result = new FieldDescription[getFieldAmount()];
+		ActiveField[] result = new ActiveField[getFieldAmount()];
 
 		for (int i = 0; i < getFieldAmount(); i++) {
-			result[i] = fieldDetails.get(i);
+			result[i] = activeFields.get(i);
 		}
 
 		return result;
 	}
 
 	//these tokens are localized via regexBundle in this class
-	public String getRegex(FieldDescription field) { return getLocalized(field.getValueRegex()); }
+	public String getRegex(ActiveField field) { return getLocalized(field.getValueRegex()); }
 
-	public String getValuePrompt(FieldDescription field) {
+	public String getValuePrompt(ActiveField field) {
 		String result = getLocalized(field.getValueDescription());
 		return result.isEmpty() ? View.WRONG_INPUT : result;
 	}
 
 	//these tokens are localized via record bundle in View, passing them as is
-	public String getInputPrompt(FieldDescription field) { return field.getInputPrompt(); }
+	public String getInputPrompt(ActiveField field) { return field.getInputPrompt(); }
 
-	public String getFieldOptionalPrompt(FieldDescription field) {
+	public String getFieldOptionalPrompt(ActiveField field) {
 		return isFieldOptional(field) ? View.FIELD_OPTIONAL : "";
 	}
 
-	public boolean isFieldOptional(FieldDescription field) { return field.isOptional(); }
+	public boolean isFieldOptional(ActiveField field) { return field.isOptional(); }
 
 }
