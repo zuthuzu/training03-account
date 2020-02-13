@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 public class FieldReference {
 
 	private SupportedLanguages currentLanguage;
-	private ResourceBundle bundle;
+	private ResourceBundle regexBundle;
 
 	private ArrayList<FieldDescription> fieldDetails = new ArrayList<>();
 
@@ -33,11 +33,11 @@ public class FieldReference {
 
 	public void setLocalization(SupportedLanguages lang) {
 		currentLanguage = lang;
-		bundle = ResourceBundle.getBundle("regex", SupportedLanguages.determineLocale(lang));
+		regexBundle = ResourceBundle.getBundle("regex", SupportedLanguages.determineLocale(lang));
 	}
 
 	public String getLocalized(String property) {
-		return bundle.keySet().contains(property) ? bundle.getString(property) : "";
+		return regexBundle.keySet().contains(property) ? regexBundle.getString(property) : "";
 	}
 
 	public int getFieldAmount() { return fieldDetails.size(); }
@@ -55,7 +55,7 @@ public class FieldReference {
 		return result;
 	}
 
-	//these tokens are localized via regex bundle
+	//these tokens are localized via regexBundle in this class
 	public String getRegex(FieldDescription field) { return getLocalized(field.getValueRegex()); }
 
 	public String getValuePrompt(FieldDescription field) {
@@ -63,7 +63,7 @@ public class FieldReference {
 		return result.isEmpty() ? View.WRONG_INPUT : result;
 	}
 
-	//these tokens are localized via record bundle in View
+	//these tokens are localized via record bundle in View, passing them as is
 	public String getInputPrompt(FieldDescription field) { return field.getInputPrompt(); }
 
 	public String getFieldOptionalPrompt(FieldDescription field) {

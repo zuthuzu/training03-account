@@ -51,7 +51,7 @@ public class Controller {
 		}
 
 		selectedLanguage = SupportedLanguages.getSupportedLanguage(languageSelectionLoop(sc));
-		sc.nextLine(); //for some reason it's necessary to avoid ghost input further on
+		sc.nextLine(); //to avoid ghost input further on
 
 		fieldReference.setLocalization(selectedLanguage);
 		view.setLocalization(selectedLanguage);
