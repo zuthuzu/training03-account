@@ -17,13 +17,6 @@ public class View {
 	public static final String RECORD_NO_FIELDS = "record.nofields";
 	public static final String WRONG_INPUT = "input.wrong";
 	public static final String FIELD_OPTIONAL = "input.optional";
-	public static final String INPUT_FIRST_NAME = "input.firstname";
-	public static final String INPUT_SECOND_NAME = "input.secondname";
-	public static final String INPUT_PATRONYM = "input.patronym";
-	public static final String INPUT_COMMENT = "input.comment";
-	public static final String FORMAT_NAME = "input.name.value";
-	public static final String INPUT_LOGIN = "input.login";
-	public static final String FORMAT_LOGIN = "input.login.value";
 
 	public View() {
 		currentLanguage = SupportedLanguages.ENGLISH;

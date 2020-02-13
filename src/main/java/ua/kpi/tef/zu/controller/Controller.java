@@ -12,9 +12,6 @@ import java.util.Scanner;
 
 public class Controller {
 
-	private static final String LANGUAGE_OPTIONS = "[1-2]";
-	private SupportedLanguages currentLanguage;
-
 	// Constructor
 	private Model model;
 	private View view;
@@ -47,22 +44,17 @@ public class Controller {
 
 	//Language selection methods
 	public void selectLanguage(Scanner sc) {
-		view.printAndEndLine(SupportedLanguages.ENGLISH.getUserPrompt());
-		view.printAndEndLine(SupportedLanguages.RUSSIAN.getUserPrompt());
-		currentLanguage = getSupportedLanguage(languageSelectionLoop(sc));
-		view.setLocalization(currentLanguage);
-		sc.nextLine(); //for some reason it's necessary to avoid ghost input further on
-	}
+		SupportedLanguages selectedLanguage;
 
-	private SupportedLanguages getSupportedLanguage(int value) {
-		switch (value) {
-			case 1:
-				return SupportedLanguages.ENGLISH;
-			case 2:
-				return SupportedLanguages.RUSSIAN;
-			default:
-				return SupportedLanguages.ENGLISH;
+		for (SupportedLanguages option : SupportedLanguages.values()) {
+			view.printAndEndLine(option.getUserPrompt());
 		}
+
+		selectedLanguage = SupportedLanguages.getSupportedLanguage(languageSelectionLoop(sc));
+		sc.nextLine(); //for some reason it's necessary to avoid ghost input further on
+
+		fieldReference.setLocalization(selectedLanguage);
+		view.setLocalization(selectedLanguage);
 	}
 
 	private int languageSelectionLoop(Scanner sc) {
@@ -70,7 +62,7 @@ public class Controller {
 
 		inputValue = inputIntValueWithScanner(sc);
 
-		while (!Integer.toString(inputValue).matches(LANGUAGE_OPTIONS)) {
+		while (!Integer.toString(inputValue).matches(SupportedLanguages.LANGUAGE_OPTIONS)) {
 			view.printAndEndLine(View.WRONG_INPUT);
 			inputValue = inputIntValueWithScanner(sc);
 		}

@@ -1,8 +1,10 @@
 package ua.kpi.tef.zu.controller;
 
+import ua.kpi.tef.zu.SupportedLanguages;
 import ua.kpi.tef.zu.view.View;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * Created by Anton Domin on 2020-02-11
@@ -10,21 +12,32 @@ import java.util.ArrayList;
 
 public class FieldReference {
 
-	private static final String REGEX_FIRST_NAME = "[A-ЯЁ][а-яё]{1,25}";
-	private static final String REGEX_SECOND_NAME = "[А-ЯЁ][а-яё]{1,25}([-][А-ЯЁ][а-яё]{1,25})?";
-	private static final String REGEX_LOGIN = "[a-zA-Z][a-zA-Z0-9-_\\.]{1,20}";
+	private SupportedLanguages currentLanguage;
+	private ResourceBundle bundle;
 
 	private ArrayList<FieldDescription> fieldDetails = new ArrayList<>();
 
 	public FieldReference() {
 
-		//first three constructor parameters are mandatory, the rest is optional
-		fieldDetails.add(new FieldDescription(FieldID.FIRSTNAME, View.INPUT_FIRST_NAME, REGEX_FIRST_NAME, View.FORMAT_NAME));
-		fieldDetails.add(new FieldDescription(FieldID.SECONDNAME, View.INPUT_SECOND_NAME, REGEX_SECOND_NAME, View.FORMAT_NAME));
-		fieldDetails.add(new FieldDescription(FieldID.PATRONYM, View.INPUT_PATRONYM, REGEX_FIRST_NAME, View.FORMAT_NAME, true));
-		fieldDetails.add(new FieldDescription(FieldID.LOGIN, View.INPUT_LOGIN, REGEX_LOGIN, View.FORMAT_LOGIN, false, true));
-		fieldDetails.add(new FieldDescription(FieldID.COMMENT, View.INPUT_COMMENT, REGEX_LOGIN, View.FORMAT_LOGIN, true));
+		currentLanguage = SupportedLanguages.ENGLISH;
+		setLocalization(currentLanguage);
 
+		//first three constructor parameters are mandatory, the rest is optional
+		fieldDetails.add(new FieldDescription(FieldID.FIRSTNAME));
+		fieldDetails.add(new FieldDescription(FieldID.SECONDNAME));
+		fieldDetails.add(new FieldDescription(FieldID.PATRONYM, true));
+		fieldDetails.add(new FieldDescription(FieldID.LOGIN, false, true));
+		fieldDetails.add(new FieldDescription(FieldID.COMMENT, true));
+
+	}
+
+	public void setLocalization(SupportedLanguages lang) {
+		currentLanguage = lang;
+		bundle = ResourceBundle.getBundle("regex", SupportedLanguages.determineLocale(lang));
+	}
+
+	public String getLocalized(String property) {
+		return bundle.keySet().contains(property) ? bundle.getString(property) : "";
 	}
 
 	public int getFieldAmount() { return fieldDetails.size(); }
@@ -35,21 +48,23 @@ public class FieldReference {
 		//ergo, constructing an array manually for now
 		FieldDescription[] result = new FieldDescription[getFieldAmount()];
 
-		for (int i=0; i < getFieldAmount(); i++) {
+		for (int i = 0; i < getFieldAmount(); i++) {
 			result[i] = fieldDetails.get(i);
 		}
 
 		return result;
 	}
 
-	public String getRegex(FieldDescription field) { return field.getValueRegex(); }
-
-	public String getInputPrompt(FieldDescription field) { return field.getInputPrompt(); }
+	//these tokens are localized via regex bundle
+	public String getRegex(FieldDescription field) { return getLocalized(field.getValueRegex()); }
 
 	public String getValuePrompt(FieldDescription field) {
-		String result = field.getValuePrompt();
+		String result = getLocalized(field.getValueDescription());
 		return result.isEmpty() ? View.WRONG_INPUT : result;
 	}
+
+	//these tokens are localized via record bundle in View
+	public String getInputPrompt(FieldDescription field) { return field.getInputPrompt(); }
 
 	public String getFieldOptionalPrompt(FieldDescription field) {
 		return isFieldOptional(field) ? View.FIELD_OPTIONAL : "";
