@@ -1,11 +1,11 @@
-package ua.kpi.tef.zu;
+package ua.kpi.tef.zu.controller;
 
 /**
  * Created by Anton Domin on 2020-02-11
  */
 
-public class Field {
-	private String fieldID;
+public class FieldDetails {
+	private FieldID fieldID;
 	private String inputPrompt;
 	private String valueRegex;
 	private String valuePrompt = "";
@@ -13,27 +13,27 @@ public class Field {
 	private boolean isUnique = false;
 
 	//overloading for different possible amount of details at init
-	public Field() {
+	public FieldDetails() {
 		//a blank field that isn't included in normal reference, serves as a null substitute
-		this.fieldID = "";
+		this.fieldID = null;
 		this.inputPrompt = "";
 		this.valueRegex = "";
 	}
 
-	public Field(String fieldID, String inputPrompt, String valueRegex) {
+	public FieldDetails(FieldID fieldID, String inputPrompt, String valueRegex) {
 		this.fieldID = fieldID;
 		this.inputPrompt = inputPrompt;
 		this.valueRegex = valueRegex;
 	}
 
-	public Field(String fieldID, String inputPrompt, String valueRegex, String valuePrompt) {
+	public FieldDetails(FieldID fieldID, String inputPrompt, String valueRegex, String valuePrompt) {
 		this.fieldID = fieldID;
 		this.inputPrompt = inputPrompt;
 		this.valueRegex = valueRegex;
 		this.valuePrompt = valuePrompt;
 	}
 
-	public Field(String fieldID, String inputPrompt, String valueRegex, String valuePrompt, boolean isOptional) {
+	public FieldDetails(FieldID fieldID, String inputPrompt, String valueRegex, String valuePrompt, boolean isOptional) {
 		this.fieldID = fieldID;
 		this.inputPrompt = inputPrompt;
 		this.valueRegex = valueRegex;
@@ -41,7 +41,7 @@ public class Field {
 		this.isOptional = isOptional;
 	}
 
-	public Field(String fieldID, String inputPrompt, String valueRegex, String valuePrompt, boolean isOptional, boolean isUnique) {
+	public FieldDetails(FieldID fieldID, String inputPrompt, String valueRegex, String valuePrompt, boolean isOptional, boolean isUnique) {
 		this.fieldID = fieldID;
 		this.inputPrompt = inputPrompt;
 		this.valueRegex = valueRegex;
@@ -50,27 +50,15 @@ public class Field {
 		this.isUnique = isUnique;
 	}
 
-	public String getFieldID() {
-		return fieldID;
-	}
+	public FieldID getFieldID() { return fieldID; }
 
-	public String getInputPrompt() {
-		return inputPrompt;
-	}
+	public String getInputPrompt() { return inputPrompt; }
 
-	public String getValueRegex() {
-		return valueRegex;
-	}
+	public String getValueRegex() { return valueRegex; }
 
-	public String getValuePrompt() {
-		return valuePrompt;
-	}
+	public String getValuePrompt() { return valuePrompt; }
 
-	public boolean isOptional() {
-		return isOptional;
-	}
+	public boolean isOptional() { return isOptional; }
 
-	public boolean isUnique() {
-		return isUnique;
-	}
+	public boolean isUnique() { return isUnique; }
 }

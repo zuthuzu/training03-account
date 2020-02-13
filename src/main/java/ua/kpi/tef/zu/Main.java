@@ -1,5 +1,8 @@
 package ua.kpi.tef.zu;
 
+import ua.kpi.tef.zu.controller.Controller;
+import ua.kpi.tef.zu.view.View;
+
 /**
  * Created by Anton Domin on 2020-02-11
  */
@@ -10,6 +13,6 @@ public class Main
         // Initialization
         Controller controller = new Controller(new Model(), new View());
         // Run
-        controller.startAccountInput();
+        controller.startRecordInput();
     }
 }

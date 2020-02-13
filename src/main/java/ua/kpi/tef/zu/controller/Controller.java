@@ -1,4 +1,7 @@
-package ua.kpi.tef.zu;
+package ua.kpi.tef.zu.controller;
+
+import ua.kpi.tef.zu.Model;
+import ua.kpi.tef.zu.view.*;
 
 import java.util.Scanner;
 
@@ -18,13 +21,15 @@ public class Controller {
 		fieldReference = new FieldReference();
 	}
 
-	public void startAccountInput() {
+	public void startRecordInput() {
 		if (fieldReference.getFieldAmount() == 0) {
 			view.printAndEndLine(View.RECORD_NO_FIELDS);
 			return;
 		}
 
 		Scanner sc = new Scanner(System.in);
+
+		//selectLanguage(sc);
 
 		view.printAndEndLine(View.RECORD_INTRO);
 
@@ -35,11 +40,16 @@ public class Controller {
 		}
 	}
 
+	private void selectLanguage(Scanner sc) {
+		view.printAndEndLine(SupportedLanguages.ENGLISH.getUserPrompt());
+		view.printAndEndLine(SupportedLanguages.RUSSIAN.getUserPrompt());
+	}
+
 	private void processFields(Scanner sc) {
-		String[] fieldIDs = fieldReference.getFieldIDs();
+		FieldID[] fieldIDs = fieldReference.getFieldIDs();
 		String inputValue;
 
-		for (String fieldID : fieldIDs) {
+		for (FieldID fieldID : fieldIDs) {
 			inputValue = inputStringValueWithScanner(sc, fieldID);
 			if (!inputValue.isEmpty()) {
 				model.recordInput(inputValue, fieldID);
@@ -47,7 +57,7 @@ public class Controller {
 		}
 	}
 
-	public String inputStringValueWithScanner(Scanner sc, String fieldID) {
+	public String inputStringValueWithScanner(Scanner sc, FieldID fieldID) {
 		String userPrompt = fieldReference.getInputPromptByFieldID(fieldID);
 		String inputValue;
 
@@ -73,7 +83,7 @@ public class Controller {
 		return inputValue;
 	}
 
-	private boolean isValueOK(String inputValue, String fieldID) {
+	private boolean isValueOK(String inputValue, FieldID fieldID) {
 		if (fieldReference.isFieldOptional(fieldID) && inputValue.isEmpty()) {
 			return true;
 		} else {

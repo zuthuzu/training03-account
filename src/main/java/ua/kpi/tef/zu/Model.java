@@ -1,5 +1,7 @@
 package ua.kpi.tef.zu;
 
+import ua.kpi.tef.zu.controller.FieldID;
+
 /**
  * Created by Anton Domin on 2020-02-11
  */
@@ -11,27 +13,23 @@ public class Model {
 		return (currentRecord == null) ? currentRecord = new Record() : currentRecord;
 	}
 
-	public void recordInput(String value, String fieldID) {
-		if (value.isEmpty() || fieldID.isEmpty()) {
+	public void recordInput(String value, FieldID fieldID) {
+		if (value.isEmpty() || fieldID == null) {
 			return;
 		}
 
-		String lowercaseID = fieldID.toLowerCase();
-
-		switch (lowercaseID) {
-			case ("firstname"):
+		switch (fieldID) {
+			case FIRSTNAME:
 				getCurrentRecord().setFirstName(value);
 				break;
-			case ("secondname"):
+			case SECONDNAME:
 				getCurrentRecord().setSecondName(value);
 				break;
-			case ("login"):
+			case LOGIN:
 				getCurrentRecord().setUserLogin(value);
 				break;
 		}
 	}
 
-	public boolean hasNewRecordInProgress() {
-		return getCurrentRecord().isNew();
-	}
+	public boolean hasNewRecordInProgress() { return getCurrentRecord().isNew(); }
 }
