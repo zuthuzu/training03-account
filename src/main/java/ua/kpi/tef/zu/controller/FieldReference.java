@@ -14,65 +14,47 @@ public class FieldReference {
 	private static final String REGEX_SECOND_NAME = "[А-ЯЁ][а-яё]{1,25}([-][А-ЯЁ][а-яё]{1,25})?";
 	private static final String REGEX_LOGIN = "[a-zA-Z][a-zA-Z0-9-_\\.]{1,20}";
 
-	private ArrayList<FieldDetails> fieldDetails = new ArrayList<>();
-	private FieldDetails blankField;
+	private ArrayList<FieldDescription> fieldDetails = new ArrayList<>();
 
 	public FieldReference() {
 
-		blankField = new FieldDetails();
-
 		//first three constructor parameters are mandatory, the rest is optional
-		fieldDetails.add(new FieldDetails(FieldID.FIRSTNAME, View.INPUT_FIRST_NAME, REGEX_FIRST_NAME, View.FORMAT_NAME));
-		fieldDetails.add(new FieldDetails(FieldID.SECONDNAME, View.INPUT_SECOND_NAME, REGEX_SECOND_NAME, View.FORMAT_NAME));
-		fieldDetails.add(new FieldDetails(FieldID.PATRONYM, View.INPUT_PATRONYM, REGEX_FIRST_NAME, View.FORMAT_NAME, true));
-		fieldDetails.add(new FieldDetails(FieldID.LOGIN, View.INPUT_LOGIN, REGEX_LOGIN, View.FORMAT_LOGIN, false, true));
-		fieldDetails.add(new FieldDetails(FieldID.COMMENT, View.INPUT_COMMENT, REGEX_LOGIN, View.FORMAT_LOGIN, true));
+		fieldDetails.add(new FieldDescription(FieldID.FIRSTNAME, View.INPUT_FIRST_NAME, REGEX_FIRST_NAME, View.FORMAT_NAME));
+		fieldDetails.add(new FieldDescription(FieldID.SECONDNAME, View.INPUT_SECOND_NAME, REGEX_SECOND_NAME, View.FORMAT_NAME));
+		fieldDetails.add(new FieldDescription(FieldID.PATRONYM, View.INPUT_PATRONYM, REGEX_FIRST_NAME, View.FORMAT_NAME, true));
+		fieldDetails.add(new FieldDescription(FieldID.LOGIN, View.INPUT_LOGIN, REGEX_LOGIN, View.FORMAT_LOGIN, false, true));
+		fieldDetails.add(new FieldDescription(FieldID.COMMENT, View.INPUT_COMMENT, REGEX_LOGIN, View.FORMAT_LOGIN, true));
 
 	}
 
 	public int getFieldAmount() { return fieldDetails.size(); }
 
-	public FieldID[] getFieldIDs() {
+	public FieldDescription[] getFieldDetails() {
+		//for some reason fieldDetails.toArray() doesn't work, returs type mismatch: Object[]
+		//manual downcasting to (FieldDescription[]) doesn't work either
+		//ergo, constructing an array manually for now
+		FieldDescription[] result = new FieldDescription[getFieldAmount()];
 
-		FieldID[] result = new FieldID[getFieldAmount()];
-
-		for (int i = 0; i < getFieldAmount(); i++) {
-			result[i] = fieldDetails.get(i).getFieldID();
+		for (int i=0; i < getFieldAmount(); i++) {
+			result[i] = fieldDetails.get(i);
 		}
 
 		return result;
 	}
 
-	private FieldDetails findByID(FieldID fieldID) {
+	public String getRegex(FieldDescription field) { return field.getValueRegex(); }
 
-		for (int i = 0; i < getFieldAmount(); i++) {
-			if (fieldDetails.get(i).getFieldID() == fieldID) {
-				return fieldDetails.get(i);
-			}
-		}
+	public String getInputPrompt(FieldDescription field) { return field.getInputPrompt(); }
 
-		return blankField;
-	}
-
-	public String getRegexByFieldID(FieldID fieldID) {
-		return findByID(fieldID).getValueRegex();
-	}
-
-	public String getInputPromptByFieldID(FieldID fieldID) {
-		return findByID(fieldID).getInputPrompt();
-	}
-
-	public String getValuePromptByFieldID(FieldID fieldID) {
-		String result = findByID(fieldID).getValuePrompt();
+	public String getValuePrompt(FieldDescription field) {
+		String result = field.getValuePrompt();
 		return result.isEmpty() ? View.WRONG_INPUT : result;
 	}
 
-	public String getFieldOptionalPrompt(FieldID fieldID) {
-		return isFieldOptional(fieldID) ? View.FIELD_OPTIONAL : "";
+	public String getFieldOptionalPrompt(FieldDescription field) {
+		return isFieldOptional(field) ? View.FIELD_OPTIONAL : "";
 	}
 
-	public boolean isFieldOptional(FieldID fieldID) {
-		return findByID(fieldID).isOptional();
-	}
+	public boolean isFieldOptional(FieldDescription field) { return field.isOptional(); }
 
 }

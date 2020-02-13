@@ -4,7 +4,7 @@ package ua.kpi.tef.zu.controller;
  * Created by Anton Domin on 2020-02-11
  */
 
-public class FieldDetails {
+public class FieldDescription {
 	private FieldID fieldID;
 	private String inputPrompt;
 	private String valueRegex;
@@ -13,27 +13,27 @@ public class FieldDetails {
 	private boolean isUnique = false;
 
 	//overloading for different possible amount of details at init
-	public FieldDetails() {
+	public FieldDescription() {
 		//a blank field that isn't included in normal reference, serves as a null substitute
 		this.fieldID = null;
 		this.inputPrompt = "";
 		this.valueRegex = "";
 	}
 
-	public FieldDetails(FieldID fieldID, String inputPrompt, String valueRegex) {
+	public FieldDescription(FieldID fieldID, String inputPrompt, String valueRegex) {
 		this.fieldID = fieldID;
 		this.inputPrompt = inputPrompt;
 		this.valueRegex = valueRegex;
 	}
 
-	public FieldDetails(FieldID fieldID, String inputPrompt, String valueRegex, String valuePrompt) {
+	public FieldDescription(FieldID fieldID, String inputPrompt, String valueRegex, String valuePrompt) {
 		this.fieldID = fieldID;
 		this.inputPrompt = inputPrompt;
 		this.valueRegex = valueRegex;
 		this.valuePrompt = valuePrompt;
 	}
 
-	public FieldDetails(FieldID fieldID, String inputPrompt, String valueRegex, String valuePrompt, boolean isOptional) {
+	public FieldDescription(FieldID fieldID, String inputPrompt, String valueRegex, String valuePrompt, boolean isOptional) {
 		this.fieldID = fieldID;
 		this.inputPrompt = inputPrompt;
 		this.valueRegex = valueRegex;
@@ -41,7 +41,7 @@ public class FieldDetails {
 		this.isOptional = isOptional;
 	}
 
-	public FieldDetails(FieldID fieldID, String inputPrompt, String valueRegex, String valuePrompt, boolean isOptional, boolean isUnique) {
+	public FieldDescription(FieldID fieldID, String inputPrompt, String valueRegex, String valuePrompt, boolean isOptional, boolean isUnique) {
 		this.fieldID = fieldID;
 		this.inputPrompt = inputPrompt;
 		this.valueRegex = valueRegex;

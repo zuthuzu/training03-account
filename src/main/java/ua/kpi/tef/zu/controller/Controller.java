@@ -46,19 +46,19 @@ public class Controller {
 	}
 
 	private void processFields(Scanner sc) {
-		FieldID[] fieldIDs = fieldReference.getFieldIDs();
+		FieldDescription[] fieldDetails = fieldReference.getFieldDetails();
 		String inputValue;
 
-		for (FieldID fieldID : fieldIDs) {
-			inputValue = inputStringValueWithScanner(sc, fieldID);
+		for (FieldDescription field : fieldDetails) {
+			inputValue = inputStringValueWithScanner(sc, field);
 			if (!inputValue.isEmpty()) {
-				model.recordInput(inputValue, fieldID);
+				model.recordInput(inputValue, field.getFieldID());
 			}
 		}
 	}
 
-	public String inputStringValueWithScanner(Scanner sc, FieldID fieldID) {
-		String userPrompt = fieldReference.getInputPromptByFieldID(fieldID);
+	public String inputStringValueWithScanner(Scanner sc, FieldDescription field) {
+		String userPrompt = fieldReference.getInputPrompt(field);
 		String inputValue;
 
 		/*while (!(sc.hasNext() && (inputValue = sc.nextLine()).matches(currentFieldRegex))) {
@@ -70,24 +70,24 @@ public class Controller {
 
 		do {
 			view.printAndKeepLine(userPrompt);
-			view.printAndKeepLine(fieldReference.getFieldOptionalPrompt(fieldID));
+			view.printAndKeepLine(fieldReference.getFieldOptionalPrompt(field));
 
 			inputValue = sc.nextLine();
-			valueMeetsRequirements = isValueOK(inputValue, fieldID);
+			valueMeetsRequirements = isValueOK(inputValue, field);
 
 			if (!valueMeetsRequirements) {
-				view.printAndEndLine(fieldReference.getValuePromptByFieldID(fieldID));
+				view.printAndEndLine(fieldReference.getValuePrompt(field));
 			}
 		} while (!valueMeetsRequirements);
 
 		return inputValue;
 	}
 
-	private boolean isValueOK(String inputValue, FieldID fieldID) {
-		if (fieldReference.isFieldOptional(fieldID) && inputValue.isEmpty()) {
+	private boolean isValueOK(String inputValue, FieldDescription field) {
+		if (fieldReference.isFieldOptional(field) && inputValue.isEmpty()) {
 			return true;
 		} else {
-			return inputValue.matches(fieldReference.getRegexByFieldID(fieldID));
+			return inputValue.matches(fieldReference.getRegex(field));
 		}
 	}
 }
