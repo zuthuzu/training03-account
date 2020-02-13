@@ -1,6 +1,7 @@
 package ua.kpi.tef.zu.view;
 
-import java.util.Locale;
+import ua.kpi.tef.zu.SupportedLanguages;
+
 import java.util.ResourceBundle;
 
 /**
@@ -8,6 +9,7 @@ import java.util.ResourceBundle;
  */
 
 public class View {
+	private SupportedLanguages currentLanguage;
 	private ResourceBundle bundle;
 
 	public static final String RECORD_INTRO = "record.intro";
@@ -24,23 +26,16 @@ public class View {
 	public static final String FORMAT_LOGIN = "input.login.value";
 
 	public View() {
-		setLocalization(SupportedLanguages.ENGLISH);
+		currentLanguage = SupportedLanguages.ENGLISH;
+		setLocalization(currentLanguage);
 	}
 
 	public void setLocalization(SupportedLanguages lang) {
-		bundle = ResourceBundle.getBundle("record", determineLocale(lang));
+		currentLanguage = lang;
+		bundle = ResourceBundle.getBundle("record", SupportedLanguages.determineLocale(lang));
 	}
 
-	private Locale determineLocale(SupportedLanguages lang) {
-		switch (lang) {
-			case ENGLISH:
-				return new Locale("en", "US");
-			case RUSSIAN:
-				return new Locale("ru", "RU");
-			default:
-				return new Locale("en", "US");
-		}
-	}
+	public SupportedLanguages getCurrentLanguage() { return currentLanguage; }
 
 	public void printAndKeepLine(String message) { System.out.print(getLocalizedText(message) + " "); }
 

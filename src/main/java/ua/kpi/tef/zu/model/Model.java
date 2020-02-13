@@ -1,4 +1,4 @@
-package ua.kpi.tef.zu;
+package ua.kpi.tef.zu.model;
 
 import ua.kpi.tef.zu.controller.FieldID;
 

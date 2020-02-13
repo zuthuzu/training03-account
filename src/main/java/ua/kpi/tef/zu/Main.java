@@ -1,6 +1,7 @@
 package ua.kpi.tef.zu;
 
 import ua.kpi.tef.zu.controller.Controller;
+import ua.kpi.tef.zu.model.Model;
 import ua.kpi.tef.zu.view.View;
 
 /**

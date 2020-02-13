@@ -1,6 +1,7 @@
 package ua.kpi.tef.zu.controller;
 
-import ua.kpi.tef.zu.Model;
+import ua.kpi.tef.zu.SupportedLanguages;
+import ua.kpi.tef.zu.model.*;
 import ua.kpi.tef.zu.view.*;
 
 import java.util.Scanner;
@@ -10,6 +11,10 @@ import java.util.Scanner;
  */
 
 public class Controller {
+
+	private static final String LANGUAGE_OPTIONS = "[1-2]";
+	private SupportedLanguages currentLanguage;
+
 	// Constructor
 	private Model model;
 	private View view;
@@ -22,14 +27,14 @@ public class Controller {
 	}
 
 	public void startRecordInput() {
+		Scanner sc = new Scanner(System.in);
+
+		selectLanguage(sc);
+
 		if (fieldReference.getFieldAmount() == 0) {
 			view.printAndEndLine(View.RECORD_NO_FIELDS);
 			return;
 		}
-
-		Scanner sc = new Scanner(System.in);
-
-		//selectLanguage(sc);
 
 		view.printAndEndLine(View.RECORD_INTRO);
 
@@ -40,24 +45,58 @@ public class Controller {
 		}
 	}
 
-	private void selectLanguage(Scanner sc) {
+	//Language selection methods
+	public void selectLanguage(Scanner sc) {
 		view.printAndEndLine(SupportedLanguages.ENGLISH.getUserPrompt());
 		view.printAndEndLine(SupportedLanguages.RUSSIAN.getUserPrompt());
+		currentLanguage = getSupportedLanguage(languageSelectionLoop(sc));
+		view.setLocalization(currentLanguage);
+		sc.nextLine(); //for some reason it's necessary to avoid ghost input further on
 	}
 
+	private SupportedLanguages getSupportedLanguage(int value) {
+		switch (value) {
+			case 1:
+				return SupportedLanguages.ENGLISH;
+			case 2:
+				return SupportedLanguages.RUSSIAN;
+			default:
+				return SupportedLanguages.ENGLISH;
+		}
+	}
+
+	private int languageSelectionLoop(Scanner sc) {
+		int inputValue;
+
+		inputValue = inputIntValueWithScanner(sc);
+
+		while (!Integer.toString(inputValue).matches(LANGUAGE_OPTIONS)) {
+			view.printAndEndLine(View.WRONG_INPUT);
+			inputValue = inputIntValueWithScanner(sc);
+		}
+
+		return inputValue;
+	}
+
+	private int inputIntValueWithScanner(Scanner sc) {
+		while (!sc.hasNextInt()) {
+			view.printAndEndLine(View.WRONG_INPUT);
+			sc.next();
+		}
+		return sc.nextInt();
+	}
+
+	//Primary function methods
 	private void processFields(Scanner sc) {
 		FieldDescription[] fieldDetails = fieldReference.getFieldDetails();
 		String inputValue;
 
 		for (FieldDescription field : fieldDetails) {
-			inputValue = inputStringValueWithScanner(sc, field);
-			if (!inputValue.isEmpty()) {
-				model.recordInput(inputValue, field.getFieldID());
-			}
+			model.recordInput(inputFieldValue(sc, field), field.getFieldID());
 		}
 	}
 
-	public String inputStringValueWithScanner(Scanner sc, FieldDescription field) {
+	private String inputFieldValue(Scanner sc, FieldDescription field) {
 		String userPrompt = fieldReference.getInputPrompt(field);
 		String inputValue;
 
