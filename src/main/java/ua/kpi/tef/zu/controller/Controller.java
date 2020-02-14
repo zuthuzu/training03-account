@@ -39,7 +39,20 @@ public class Controller {
 
 		if (model.hasNewRecordInProgress()) {
 			view.printAndEndLine(View.RECORD_IN_PROGRESS);
+
+			viewRecordSummary();
 		}
+	}
+
+	private void viewRecordSummary() {
+		view.printAndKeepLine(View.RECORD_FULL_NAME);
+		view.printAndEndLine(model.getCurrentFullName());
+
+		view.printAndKeepLine(View.RECORD_FULL_ADDRESS);
+		view.printAndEndLine(model.getCurrentFullAddress());
+
+		view.printAndKeepLine(View.RECORD_CREATION_DATE);
+		view.printAndEndLine(view.getLocalizedDate(model.getCurrentCreatedDate()));
 	}
 
 	//Localization tech
