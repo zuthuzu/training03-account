@@ -55,7 +55,13 @@ public class Controller {
 		view.printAndEndLine(view.getLocalizedDate(model.getCurrentCreatedDate()));
 	}
 
-	//Localization tech
+	/**
+	 * Prompts the scanner for the user choice about the preferred language.<br>
+	 * <br>
+	 * Available languages are pulled automatically from SupportedLanguages enum in main package.<br>
+	 *
+	 * @param sc Scanner from which the choice is obtained
+	*/
 	public void selectLanguage(Scanner sc) {
 		SupportedLanguages selectedLanguage;
 
@@ -137,7 +143,6 @@ public class Controller {
 
 		return "";
 	}
-
 
 	private int groupSelectionLoop(Scanner sc, String regexAllowed) {
 		int inputValue;

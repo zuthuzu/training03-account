@@ -8,6 +8,13 @@ import java.util.ResourceBundle;
 
 /**
  * Created by Anton Domin on 2020-02-11
+ * <br><br>
+ * Contains the interface for working with record storage.
+ * Primarily, contains the list of record fields that are currently accepting data,
+ * as well as their properties (user prompts, data filtering, user prompts, optionality, etc)
+ * <br><br>
+ * Accepts (and requires) localization from 'regex' bundle, which contains regular expressions for filtering user data
+ * and user-readable descriptions of those regexes.
  */
 
 public class FieldReference {
