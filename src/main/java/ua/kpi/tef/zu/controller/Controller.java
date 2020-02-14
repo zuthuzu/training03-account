@@ -39,10 +39,29 @@ public class Controller {
 
 		if (model.hasNewRecordInProgress()) {
 			view.printAndEndLine(View.RECORD_IN_PROGRESS);
+
+			viewRecordSummary();
 		}
 	}
 
-	//Localization tech
+	private void viewRecordSummary() {
+		view.printAndKeepLine(View.RECORD_FULL_NAME);
+		view.printAndEndLine(model.getCurrentFullName());
+
+		view.printAndKeepLine(View.RECORD_FULL_ADDRESS);
+		view.printAndEndLine(model.getCurrentFullAddress());
+
+		view.printAndKeepLine(View.RECORD_CREATION_DATE);
+		view.printAndEndLine(view.getLocalizedDate(model.getCurrentCreatedDate()));
+	}
+
+	/**
+	 * Prompts the scanner for the user choice about the preferred language.<br>
+	 * <br>
+	 * Available languages are pulled automatically from SupportedLanguages enum in main package.<br>
+	 *
+	 * @param sc Scanner from which the choice is obtained
+	*/
 	public void selectLanguage(Scanner sc) {
 		SupportedLanguages selectedLanguage;
 
@@ -124,7 +143,6 @@ public class Controller {
 
 		return "";
 	}
-
 
 	private int groupSelectionLoop(Scanner sc, String regexAllowed) {
 		int inputValue;

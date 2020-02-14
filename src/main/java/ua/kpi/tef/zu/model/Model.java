@@ -2,6 +2,8 @@ package ua.kpi.tef.zu.model;
 
 import ua.kpi.tef.zu.controller.FieldID;
 
+import java.util.Date;
+
 /**
  * Created by Anton Domin on 2020-02-11
  */
@@ -75,4 +77,35 @@ public class Model {
 	}
 
 	public boolean hasNewRecordInProgress() { return getCurrentRecord().isNew(); }
+
+	public String getCurrentFullName() {
+		StringBuilder result = new StringBuilder();
+
+		result.append(currentRecord.getSecondName()).append(" ").append(currentRecord.getFirstName(), 0, 1);
+		result.append(".");
+
+		if (!currentRecord.getPatronym().isEmpty()) {
+			result.append(" ").append(currentRecord.getPatronym(), 0, 1);
+			result.append(".");
+		}
+
+		return result.toString();
+	}
+
+	public String getCurrentFullAddress() {
+		StringBuilder result = new StringBuilder();
+
+		if (!currentRecord.getAddressZip().isEmpty()) {
+			result.append(currentRecord.getAddressZip());
+		}
+
+		result.append(currentRecord.getAddressCity()).append(", ").append(currentRecord.getAddressStreet()).append(", ");
+		result.append(currentRecord.getAddressBuilding()).append(", ").append(currentRecord.getAddressApt());
+
+		return result.toString();
+	}
+
+	public Date getCurrentCreatedDate() { return currentRecord.getCreatedDate(); }
+
+	public Date getCurrentChangedDate() { return currentRecord.getChangedDate(); }
 }

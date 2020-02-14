@@ -9,22 +9,22 @@ import java.util.Date;
 
 public class Record {
 	private boolean isNew;
-	private String firstName;
-	private String secondName;
-	private String patronym;
-	private String login;
-	private String comment;
-	private String group;
-	private String phoneLandline;
-	private String phoneMobile;
-	private String phoneMobile2;
-	private String email;
-	private String skype;
-	private String addressZip;
-	private String addressCity;
-	private String addressStreet;
-	private String addressBuilding;
-	private String addressApt;
+	private String firstName = "";
+	private String secondName = "";
+	private String patronym = "";
+	private String login = "";
+	private String comment = "";
+	private String group = "";
+	private String phoneLandline = "";
+	private String phoneMobile = "";
+	private String phoneMobile2 = "";
+	private String email = "";
+	private String skype = "";
+	private String addressZip = "";
+	private String addressCity = "";
+	private String addressStreet = "";
+	private String addressBuilding = "";
+	private String addressApt = "";
 	private Date createdDate;
 	private Date changedDate;
 
@@ -52,11 +52,11 @@ public class Record {
 
 	public void setGroup(String group)  { this.group = group; }
 
-	public void setPhoneLandline(String phoneLandline)  { this.phoneLandline = phoneLandline; }
+	public void setPhoneLandline(String phoneLandline)  { this.phoneLandline = cleanPhoneNumber(phoneLandline); }
 
-	public void setPhoneMobile(String phoneMobile)  { this.phoneMobile = phoneMobile; }
+	public void setPhoneMobile(String phoneMobile)  { this.phoneMobile = cleanPhoneNumber(phoneMobile); }
 
-	public void setPhoneMobile2(String phoneMobile2)  { this.phoneMobile2 = phoneMobile2; }
+	public void setPhoneMobile2(String phoneMobile2)  { this.phoneMobile2 = cleanPhoneNumber(phoneMobile2); }
 
 	public void setEmail(String email)  { this.email = email; }
 
@@ -110,29 +110,16 @@ public class Record {
 
 	public Date getCreatedDate() { return createdDate; }
 
-	//Combo fields
-	public String getFullName() {
+	private String cleanPhoneNumber(String rawNumber) {
 		StringBuilder result = new StringBuilder();
 
-		result.append(secondName).append(" ").append(firstName, 0, 1);
-
-		if (!patronym.isEmpty()) {
-			result.append(" ").append(patronym, 0, 1);
+		for (char n : rawNumber.toCharArray()) {
+			if (Character.isDigit(n)) {
+				result.append(n);
+			}
 		}
 
 		return result.toString();
 	}
 
-	public String getFullAddress() {
-		StringBuilder result = new StringBuilder();
-
-		if (!addressZip.isEmpty()) {
-			result.append(addressZip);
-		}
-
-		result.append(addressCity).append(", ").append(addressStreet).append(", ");
-		result.append(addressBuilding).append(", ").append(addressApt);
-
-		return result.toString();
-	}
 }
