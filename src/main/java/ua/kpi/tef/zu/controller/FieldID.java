@@ -15,13 +15,13 @@ public enum FieldID {
 	PHONE_LANDLINE("input.phone.landline", "phone.regex", "phone.description"),
 	PHONE_MOBILE("input.phone.mobile", "phone.regex", "phone.description"),
 	PHONE_MOBILE2("input.phone.mobile2", "phone.regex", "phone.description"),
-	EMAIL,
-	SKYPE,
-	ADDRESS_ZIP,
-	ADDRESS_CITY,
-	ADDRESS_STREET,
-	ADDRESS_BUILDING,
-	ADDRESS_APT;
+	EMAIL("input.email", "email.regex", ""),
+	SKYPE("input.skype", "login.regex", "login.description"),
+	ADDRESS_ZIP("input.address.zipcode", "zip.regex", "zip.description"),
+	ADDRESS_CITY("input.address.city", "secondname.regex", "name.description"),
+	ADDRESS_STREET("input.address.street", "streetname.regex", "name.description"),
+	ADDRESS_BUILDING("input.address.building", "buildingno.regex", ""),
+	ADDRESS_APT("input.address.apt", "number.regex", "number.description");
 
 	private String userPrompt;
 	private String regex;

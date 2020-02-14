@@ -32,6 +32,13 @@ public class FieldReference {
 		activeFields.add(new ActiveField(FieldID.PHONE_MOBILE));
 		activeFields.add(new ActiveField(FieldID.PHONE_LANDLINE, true));
 		activeFields.add(new ActiveField(FieldID.PHONE_MOBILE2, true));
+		activeFields.add(new ActiveField(FieldID.EMAIL));
+		activeFields.add(new ActiveField(FieldID.SKYPE, true));
+		activeFields.add(new ActiveField(FieldID.ADDRESS_ZIP, true));
+		activeFields.add(new ActiveField(FieldID.ADDRESS_CITY));
+		activeFields.add(new ActiveField(FieldID.ADDRESS_STREET));
+		activeFields.add(new ActiveField(FieldID.ADDRESS_BUILDING));
+		activeFields.add(new ActiveField(FieldID.ADDRESS_APT));
 
 	}
 

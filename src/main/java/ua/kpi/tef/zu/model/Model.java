@@ -13,22 +13,65 @@ public class Model {
 		return (currentRecord == null) ? currentRecord = new Record() : currentRecord;
 	}
 
-	public void recordInput(String value, FieldID fieldID) {
+	public void writeValueToRecord(String value, FieldID fieldID) {
 		if (value.isEmpty() || fieldID == null) {
 			return;
 		}
 
+		getCurrentRecord();
+
 		switch (fieldID) {
 			case FIRSTNAME:
-				getCurrentRecord().setFirstName(value);
+				currentRecord.setFirstName(value);
 				break;
 			case SECONDNAME:
-				getCurrentRecord().setSecondName(value);
+				currentRecord.setSecondName(value);
+				break;
+			case PATRONYM:
+				currentRecord.setPatronym(value);
 				break;
 			case LOGIN:
-				getCurrentRecord().setUserLogin(value);
+				currentRecord.setLogin(value);
+				break;
+			case COMMENT:
+				currentRecord.setComment(value);
+				break;
+			case GROUP:
+				currentRecord.setGroup(value);
+				break;
+			case PHONE_LANDLINE:
+				currentRecord.setPhoneLandline(value);
+				break;
+			case PHONE_MOBILE:
+				currentRecord.setPhoneMobile(value);
+				break;
+			case PHONE_MOBILE2:
+				currentRecord.setPhoneMobile2(value);
+				break;
+			case EMAIL:
+				currentRecord.setEmail(value);
+				break;
+			case SKYPE:
+				currentRecord.setSkype(value);
+				break;
+			case ADDRESS_ZIP:
+				currentRecord.setAddressZip(value);
+				break;
+			case ADDRESS_CITY:
+				currentRecord.setAddressCity(value);
+				break;
+			case ADDRESS_STREET:
+				currentRecord.setAddressStreet(value);
+				break;
+			case ADDRESS_BUILDING:
+				currentRecord.setAddressBuilding(value);
+				break;
+			case ADDRESS_APT:
+				currentRecord.setAddressApt(value);
 				break;
 		}
+
+		currentRecord.setChangedDateToCurrent();
 	}
 
 	public boolean hasNewRecordInProgress() { return getCurrentRecord().isNew(); }

@@ -62,7 +62,7 @@ public class Controller {
 		String inputValue;
 
 		for (ActiveField field : activeFields) {
-			model.recordInput(inputFieldValue(sc, field), field.getFieldID());
+			model.writeValueToRecord(inputFieldValue(sc, field), field.getFieldID());
 		}
 	}
 
