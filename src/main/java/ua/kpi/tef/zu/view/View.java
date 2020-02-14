@@ -14,8 +14,9 @@ import java.util.ResourceBundle;
 public class View {
 	private SupportedLanguages currentLanguage;
 	private ResourceBundle bundle;
+	private final String BUNDLE_NAME = "record";
 
-	private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+	private DateFormat dateFormat;
 
 	public static final String RECORD_INTRO = "record.intro";
 	public static final String RECORD_IN_PROGRESS = "record.inprogress";
@@ -34,7 +35,8 @@ public class View {
 
 	public void setLocalization(SupportedLanguages lang) {
 		currentLanguage = lang;
-		bundle = ResourceBundle.getBundle("record", SupportedLanguages.determineLocale(lang));
+		bundle = ResourceBundle.getBundle(BUNDLE_NAME, SupportedLanguages.determineLocale(lang));
+		dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 	}
 
 	public SupportedLanguages getCurrentLanguage() { return currentLanguage; }

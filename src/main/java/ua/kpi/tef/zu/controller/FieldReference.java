@@ -21,6 +21,7 @@ public class FieldReference {
 
 	private SupportedLanguages currentLanguage;
 	private ResourceBundle regexBundle;
+	private final String BUNDLE_NAME = "regex";
 
 	private ArrayList<ActiveField> activeFields = new ArrayList<>();
 
@@ -51,7 +52,7 @@ public class FieldReference {
 
 	public void setLocalization(SupportedLanguages lang) {
 		currentLanguage = lang;
-		regexBundle = ResourceBundle.getBundle("regex", SupportedLanguages.determineLocale(lang));
+		regexBundle = ResourceBundle.getBundle(BUNDLE_NAME, SupportedLanguages.determineLocale(lang));
 	}
 
 	public String getLocalized(String property) {
