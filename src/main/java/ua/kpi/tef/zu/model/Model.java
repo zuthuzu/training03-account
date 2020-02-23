@@ -72,8 +72,6 @@ public class Model {
 				currentRecord.setAddressApt(value);
 				break;
 		}
-
-		currentRecord.setChangedDateToCurrent();
 	}
 
 	public boolean hasNewRecordInProgress() { return getCurrentRecord().isNew(); }
@@ -108,4 +106,6 @@ public class Model {
 	public Date getCurrentCreatedDate() { return currentRecord.getCreatedDate(); }
 
 	public Date getCurrentChangedDate() { return currentRecord.getChangedDate(); }
+
+	public boolean saveCurrent() {return currentRecord.saveToStorage(); }
 }

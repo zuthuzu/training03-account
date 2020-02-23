@@ -36,10 +36,6 @@ public class Record {
 		changedDate = calendar.getTime();
 	}
 
-	public void setChangedDateToCurrent() {
-		changedDate = calendar.getTime();
-	}
-
 	public void setFirstName(String firstName) { this.firstName = firstName; }
 
 	public void setSecondName(String secondName) { this.secondName = secondName; }
@@ -122,4 +118,8 @@ public class Record {
 		return result.toString();
 	}
 
+	public boolean saveToStorage() {
+		changedDate = calendar.getTime(); //the time of change is NOW
+		return true;
+	}
 }

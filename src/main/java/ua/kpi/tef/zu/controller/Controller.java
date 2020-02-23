@@ -37,10 +37,15 @@ public class Controller {
 
 		processFields(sc);
 
-		if (model.hasNewRecordInProgress()) {
-			view.printAndEndLine(View.RECORD_IN_PROGRESS);
+		trySaveLoop();
+	}
 
-			viewRecordSummary();
+	private void trySaveLoop() {
+		if (model.hasNewRecordInProgress()) {
+			if (model.saveCurrent()) {
+				view.printAndEndLine(View.RECORD_IN_PROGRESS);
+				viewRecordSummary();
+			}
 		}
 	}
 
