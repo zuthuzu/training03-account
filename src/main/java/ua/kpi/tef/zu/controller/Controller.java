@@ -37,27 +37,7 @@ public class Controller {
 
 		processFields(sc);
 
-		trySaveLoop();
-	}
-
-	private void trySaveLoop() {
-		if (model.hasNewRecordInProgress()) {
-			if (model.saveCurrent()) {
-				view.printAndEndLine(View.RECORD_IN_PROGRESS);
-				viewRecordSummary();
-			}
-		}
-	}
-
-	private void viewRecordSummary() {
-		view.printAndKeepLine(View.RECORD_FULL_NAME);
-		view.printAndEndLine(model.getCurrentFullName());
-
-		view.printAndKeepLine(View.RECORD_FULL_ADDRESS);
-		view.printAndEndLine(model.getCurrentFullAddress());
-
-		view.printAndKeepLine(View.RECORD_CREATION_DATE);
-		view.printAndEndLine(view.getLocalizedDate(model.getCurrentCreatedDate()));
+		trySaveLoop(sc);
 	}
 
 	/**
@@ -87,6 +67,36 @@ public class Controller {
 
 		for (ActiveField field : activeFields) {
 			model.writeValueToRecord(inputFieldValue(sc, field), field.getFieldID());
+		}
+	}
+
+	private void trySaveLoop(Scanner sc) {
+		boolean saveOK;
+		ActiveField possibleError;
+
+		if (model.hasNewRecordInProgress()) {
+			saveOK = false;
+			do {
+				try {
+					model.saveCurrent();
+					saveOK = true;
+				} catch (DuplicateFieldException e) {
+					view.printAndEndLine(View.INPUT_AGAIN);
+
+					try {
+						possibleError = fieldReference.getActiveFieldByID(e.getFieldID());
+					} catch (ActiveFieldNotFoundException ex) {
+						view.printAndEndLine(View.RECORD_NO_FIELDS);
+						ex.printStackTrace();
+						return;
+					}
+
+					model.writeValueToRecord(inputFieldValue(sc, possibleError), e.getFieldID());
+				}
+			} while (!saveOK);
+
+			view.printAndEndLine(View.RECORD_IN_PROGRESS);
+			viewRecordSummary();
 		}
 	}
 
@@ -170,5 +180,16 @@ public class Controller {
 			sc.next();
 		}
 		return sc.nextInt();
+	}
+
+	private void viewRecordSummary() {
+		view.printAndKeepLine(View.RECORD_FULL_NAME);
+		view.printAndEndLine(model.getCurrentFullName());
+
+		view.printAndKeepLine(View.RECORD_FULL_ADDRESS);
+		view.printAndEndLine(model.getCurrentFullAddress());
+
+		view.printAndKeepLine(View.RECORD_CREATION_DATE);
+		view.printAndEndLine(view.getLocalizedDate(model.getCurrentCreatedDate()));
 	}
 }

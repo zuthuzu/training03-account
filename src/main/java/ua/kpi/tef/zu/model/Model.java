@@ -107,5 +107,5 @@ public class Model {
 
 	public Date getCurrentChangedDate() { return currentRecord.getChangedDate(); }
 
-	public boolean saveCurrent() {return currentRecord.saveToStorage(); }
+	public void saveCurrent() throws DuplicateFieldException {currentRecord.saveToStorage(); }
 }

@@ -2,6 +2,7 @@ package ua.kpi.tef.zu.model;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 
 /**
  * Created by Anton Domin on 2020-02-11
@@ -118,8 +119,24 @@ public class Record {
 		return result.toString();
 	}
 
-	public boolean saveToStorage() {
+	public void saveToStorage () throws DuplicateFieldException {
+		HashSet<String> existingValues = new HashSet<>();
+
+		for (ExistingLogins value : ExistingLogins.values()) {
+			existingValues.add(value.toString());
+		}
+		if (existingValues.contains(getLogin())) {
+			throw new DuplicateFieldException(this, "login");
+		}
+
+		existingValues.clear();
+		for (ExistingEmails value : ExistingEmails.values()) {
+			existingValues.add(value.toString());
+		}
+		if (existingValues.contains(getEmail())) {
+			throw new DuplicateFieldException(this, "email");
+		}
+
 		changedDate = calendar.getTime(); //the time of change is NOW
-		return true;
 	}
 }
