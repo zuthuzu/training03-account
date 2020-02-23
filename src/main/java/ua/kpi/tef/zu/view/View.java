@@ -27,6 +27,7 @@ public class View {
 	public static final String RECORD_CHANGE_DATE = "record.changedate";
 	public static final String WRONG_INPUT = "input.wrong";
 	public static final String FIELD_OPTIONAL = "input.optional";
+	public static final String INPUT_AGAIN = "input.again";
 
 	public View() {
 		currentLanguage = SupportedLanguages.ENGLISH;

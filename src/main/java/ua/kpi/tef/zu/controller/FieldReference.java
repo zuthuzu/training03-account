@@ -21,7 +21,7 @@ public class FieldReference {
 
 	private SupportedLanguages currentLanguage;
 	private ResourceBundle regexBundle;
-	private final String BUNDLE_NAME = "regex";
+	private final static String BUNDLE_NAME = "regex";
 
 	private ArrayList<ActiveField> activeFields = new ArrayList<>();
 
@@ -40,7 +40,7 @@ public class FieldReference {
 		activeFields.add(new ActiveField(FieldID.PHONE_MOBILE));
 		activeFields.add(new ActiveField(FieldID.PHONE_LANDLINE, true));
 		activeFields.add(new ActiveField(FieldID.PHONE_MOBILE2, true));
-		activeFields.add(new ActiveField(FieldID.EMAIL));
+		activeFields.add(new ActiveField(FieldID.EMAIL, false, true));
 		activeFields.add(new ActiveField(FieldID.SKYPE, true));
 		activeFields.add(new ActiveField(FieldID.ADDRESS_ZIP, true));
 		activeFields.add(new ActiveField(FieldID.ADDRESS_CITY));
@@ -72,6 +72,15 @@ public class FieldReference {
 		}
 
 		return result;
+	}
+
+	public ActiveField getActiveFieldByID(FieldID fieldID) throws ActiveFieldNotFoundException {
+		for (ActiveField field : activeFields) {
+			if (field.getFieldID() == fieldID) {
+				return field;
+			}
+		}
+		throw new ActiveFieldNotFoundException(fieldID);
 	}
 
 	//these tokens are localized via regexBundle in this class
