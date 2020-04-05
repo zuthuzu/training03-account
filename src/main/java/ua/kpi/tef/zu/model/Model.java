@@ -1,8 +1,10 @@
 package ua.kpi.tef.zu.model;
 
 import ua.kpi.tef.zu.controller.FieldID;
+import ua.kpi.tef.zu.model.dao.DaoFactory;
+import ua.kpi.tef.zu.model.dao.RecordDao;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Created by Anton Domin on 2020-02-11
@@ -12,7 +14,7 @@ public class Model {
 	private Record currentRecord;
 
 	private Record getCurrentRecord() {
-		return (currentRecord == null) ? currentRecord = new Record() : currentRecord;
+		return (currentRecord == null) ? currentRecord = new Record(LocalDate.now()) : currentRecord;
 	}
 
 	public void writeValueToRecord(String value, FieldID fieldID) {
@@ -42,13 +44,13 @@ public class Model {
 				currentRecord.setGroup(value);
 				break;
 			case PHONE_LANDLINE:
-				currentRecord.setPhoneLandline(value);
+				currentRecord.setPhoneLandline(cleanPhoneNumber(value));
 				break;
 			case PHONE_MOBILE:
-				currentRecord.setPhoneMobile(value);
+				currentRecord.setPhoneMobile(cleanPhoneNumber(value));
 				break;
 			case PHONE_MOBILE2:
-				currentRecord.setPhoneMobile2(value);
+				currentRecord.setPhoneMobile2(cleanPhoneNumber(value));
 				break;
 			case EMAIL:
 				currentRecord.setEmail(value);
@@ -94,7 +96,7 @@ public class Model {
 		StringBuilder result = new StringBuilder();
 
 		if (!currentRecord.getAddressZip().isEmpty()) {
-			result.append(currentRecord.getAddressZip());
+			result.append(currentRecord.getAddressZip()).append(" ");
 		}
 
 		result.append(currentRecord.getAddressCity()).append(", ").append(currentRecord.getAddressStreet()).append(", ");
@@ -103,9 +105,27 @@ public class Model {
 		return result.toString();
 	}
 
-	public Date getCurrentCreatedDate() { return currentRecord.getCreatedDate(); }
+	public LocalDate getCurrentCreatedDate() { return currentRecord.getCreatedDate(); }
 
-	public Date getCurrentChangedDate() { return currentRecord.getChangedDate(); }
+	public LocalDate getCurrentChangedDate() { return currentRecord.getChangedDate(); }
 
-	public void saveCurrent() throws DuplicateFieldException {currentRecord.saveToStorage(); }
+	public void saveCurrent() throws PersistanceException {
+		currentRecord.setChangedDate(LocalDate.now()); //the time of change is NOW
+
+		DaoFactory factory = DaoFactory.getInstance();
+		RecordDao dao = factory.createRecordDao();
+		dao.create(currentRecord);
+	}
+
+	private String cleanPhoneNumber(String rawNumber) {
+		StringBuilder result = new StringBuilder();
+
+		for (char n : rawNumber.toCharArray()) {
+			if (Character.isDigit(n)) {
+				result.append(n);
+			}
+		}
+
+		return result.toString();
+	}
 }

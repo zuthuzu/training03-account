@@ -56,7 +56,7 @@ public class FieldReference {
 	}
 
 	public String getLocalized(String property) {
-		return regexBundle.keySet().contains(property) ? regexBundle.getString(property) : "";
+		return regexBundle.keySet().contains(property) ? regexBundle.getString(property) : property;
 	}
 
 	public int getFieldAmount() { return activeFields.size(); }

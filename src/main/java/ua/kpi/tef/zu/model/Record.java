@@ -1,8 +1,6 @@
 package ua.kpi.tef.zu.model;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
+import java.time.LocalDate;
 
 /**
  * Created by Anton Domin on 2020-02-11
@@ -26,15 +24,13 @@ public class Record {
 	private String addressStreet = "";
 	private String addressBuilding = "";
 	private String addressApt = "";
-	private Date createdDate;
-	private Date changedDate;
+	private LocalDate createdDate;
+	private LocalDate changedDate;
 
-	private Calendar calendar = Calendar.getInstance();
-
-	public Record() {
+	public Record(LocalDate createdDate) {
 		isNew = true;
-		createdDate = calendar.getTime();
-		changedDate = calendar.getTime();
+		this.createdDate = createdDate;
+		this.changedDate = createdDate;
 	}
 
 	public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -49,11 +45,11 @@ public class Record {
 
 	public void setGroup(String group)  { this.group = group; }
 
-	public void setPhoneLandline(String phoneLandline)  { this.phoneLandline = cleanPhoneNumber(phoneLandline); }
+	public void setPhoneLandline(String phoneLandline)  { this.phoneLandline = phoneLandline; }
 
-	public void setPhoneMobile(String phoneMobile)  { this.phoneMobile = cleanPhoneNumber(phoneMobile); }
+	public void setPhoneMobile(String phoneMobile)  { this.phoneMobile = phoneMobile; }
 
-	public void setPhoneMobile2(String phoneMobile2)  { this.phoneMobile2 = cleanPhoneNumber(phoneMobile2); }
+	public void setPhoneMobile2(String phoneMobile2)  { this.phoneMobile2 = phoneMobile2; }
 
 	public void setEmail(String email)  { this.email = email; }
 
@@ -68,6 +64,8 @@ public class Record {
 	public void setAddressBuilding(String addressBuilding)  { this.addressBuilding = addressBuilding; }
 
 	public void setAddressApt(String addressApt)  { this.addressApt = addressApt; }
+
+	public void setChangedDate(LocalDate changedDate) { this.changedDate = changedDate; }
 
 	public String getFirstName() { return firstName; }
 
@@ -103,40 +101,7 @@ public class Record {
 
 	public boolean isNew() { return isNew; }
 
-	public Date getChangedDate() { return changedDate; }
+	public LocalDate getChangedDate() { return changedDate; }
 
-	public Date getCreatedDate() { return createdDate; }
-
-	private String cleanPhoneNumber(String rawNumber) {
-		StringBuilder result = new StringBuilder();
-
-		for (char n : rawNumber.toCharArray()) {
-			if (Character.isDigit(n)) {
-				result.append(n);
-			}
-		}
-
-		return result.toString();
-	}
-
-	public void saveToStorage () throws DuplicateFieldException {
-		HashSet<String> existingValues = new HashSet<>();
-
-		for (ExistingLogins value : ExistingLogins.values()) {
-			existingValues.add(value.toString());
-		}
-		if (existingValues.contains(getLogin())) {
-			throw new DuplicateFieldException(this, "login");
-		}
-
-		existingValues.clear();
-		for (ExistingEmails value : ExistingEmails.values()) {
-			existingValues.add(value.toString());
-		}
-		if (existingValues.contains(getEmail())) {
-			throw new DuplicateFieldException(this, "email");
-		}
-
-		changedDate = calendar.getTime(); //the time of change is NOW
-	}
+	public LocalDate getCreatedDate() { return createdDate; }
 }

@@ -5,12 +5,12 @@ import ua.kpi.tef.zu.controller.FieldID;
 /**
  * Created by Anton Domin on 2020-02-23
  */
-public class DuplicateFieldException extends Exception {
+public class PersistanceException extends Exception {
 	private Record record;
 	private String field;
 	private FieldID fieldID;
 
-	public DuplicateFieldException(Record record, String field) {
+	public PersistanceException(Record record, String field) {
 		this.record = record;
 		this.field = field;
 
@@ -22,6 +22,11 @@ public class DuplicateFieldException extends Exception {
 				this.fieldID = FieldID.EMAIL;
 				break;
 		}
+	}
+
+	public PersistanceException(Record record, Exception e) {
+		super(e);
+		this.record = record;
 	}
 
 	public Record getRecord() { return record; }

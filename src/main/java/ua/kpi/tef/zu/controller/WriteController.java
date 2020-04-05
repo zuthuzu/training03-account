@@ -10,14 +10,14 @@ import java.util.Scanner;
  * Created by Anton Domin on 2020-02-11
  */
 
-public class Controller {
+public class WriteController {
 
 	// Constructor
 	private Model model;
 	private View view;
 	private FieldReference fieldReference;
 
-	public Controller(Model model, View view) {
+	public WriteController(Model model, View view) {
 		this.model = model;
 		this.view = view;
 		fieldReference = new FieldReference();
@@ -75,25 +75,13 @@ public class Controller {
 		ActiveField possibleError;
 
 		if (model.hasNewRecordInProgress()) {
-			saveOK = false;
-			do {
-				try {
-					model.saveCurrent();
-					saveOK = true;
-				} catch (DuplicateFieldException e) {
-					view.printAndEndLine(View.INPUT_AGAIN);
-
-					try {
-						possibleError = fieldReference.getActiveFieldByID(e.getFieldID());
-					} catch (ActiveFieldNotFoundException ex) {
-						view.printAndEndLine(View.RECORD_NO_FIELDS);
-						ex.printStackTrace();
-						return;
-					}
-
-					model.writeValueToRecord(inputFieldValue(sc, possibleError), e.getFieldID());
-				}
-			} while (!saveOK);
+			try {
+				model.saveCurrent();
+			} catch (PersistanceException e) {
+				view.printAndEndLine(View.INPUT_AGAIN);
+				e.printStackTrace();
+				return;
+			}
 
 			view.printAndEndLine(View.RECORD_IN_PROGRESS);
 			viewRecordSummary();
